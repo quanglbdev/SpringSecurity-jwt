@@ -12,6 +12,8 @@ import security.jwt.model.AppUser;
 import security.jwt.repository.UserRepository;
 import security.jwt.security.JwtTokenProvider;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +53,9 @@ public class UserService {
       throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
     }
     return appUser;
+  }
+  public List<AppUser> getAll() {
+    return userRepository.findAll();
   }
 
 }

@@ -30,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         .antMatchers("/users/signin").permitAll()
         .antMatchers("/users/signup").permitAll()
+        .antMatchers("/swagger-ui").permitAll()
+            .antMatchers("/swagger-ui.html").permitAll()
         .anyRequest().authenticated();
 
     http.exceptionHandling().accessDeniedPage("/login");

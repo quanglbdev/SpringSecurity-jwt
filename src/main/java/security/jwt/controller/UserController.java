@@ -10,6 +10,8 @@ import security.jwt.dto.UserResponseDTO;
 import security.jwt.model.AppUser;
 import security.jwt.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @Api(tags = "users")
@@ -54,7 +56,6 @@ public class UserController {
   }
 
   @GetMapping(value = "/{username}")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @ApiOperation(value = "${UserController.search}", response = UserResponseDTO.class, authorizations = { @Authorization(value="apiKey") })
   @ApiResponses(value = {
       @ApiResponse(code = 400, message = "Something went wrong"),
@@ -63,5 +64,15 @@ public class UserController {
       @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
   public UserResponseDTO search(@ApiParam("Username") @PathVariable String username) {
     return modelMapper.map(userService.search(username), UserResponseDTO.class);
+  }
+
+  @GetMapping("/get")
+  @ApiOperation(value = "${UserController.get}")
+  @ApiResponses(value = {//
+          @ApiResponse(code = 400, message = "Something went wrong"),
+          @ApiResponse(code = 403, message = "Access denied"),
+          @ApiResponse(code = 422, message = "Username is already in use")})
+  public List<AppUser> get() {
+    return userService.getAll();
   }
 }
