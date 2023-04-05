@@ -3,8 +3,11 @@ package security.jwt.controller;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import security.jwt.dto.BaseResponse;
+import security.jwt.dto.ResponseBuilder;
 import security.jwt.dto.UserDataDTO;
 import security.jwt.dto.UserResponseDTO;
 import security.jwt.model.AppUser;
@@ -26,10 +29,17 @@ public class UserController {
   @ApiResponses(value = {
       @ApiResponse(code = 400, message = "Something went wrong"),
       @ApiResponse(code = 422, message = "Invalid username/password supplied")})
-  public String login(
+  public String signin(
       @ApiParam("Username") @RequestParam String username,
       @ApiParam("Password") @RequestParam String password) {
     return userService.signin(username, password);
+  }
+  @PostMapping("/login")
+  public ResponseEntity<BaseResponse<String>> login2(
+          @ApiParam("Username") @RequestParam String username,
+          @ApiParam("Password") @RequestParam String password) {
+    return ResponseEntity.ok(
+            ResponseBuilder.ok().with(userService.signin(username, password)).build());
   }
 
   @PostMapping("/signup")
