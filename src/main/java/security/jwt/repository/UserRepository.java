@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import security.jwt.model.AppUser;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<AppUser, Integer> {
 

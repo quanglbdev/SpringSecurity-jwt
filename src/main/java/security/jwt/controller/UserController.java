@@ -10,6 +10,7 @@ import security.jwt.dto.BaseResponse;
 import security.jwt.dto.ResponseBuilder;
 import security.jwt.dto.UserDataDTO;
 import security.jwt.dto.UserResponseDTO;
+import security.jwt.dto.request.SignInRequest;
 import security.jwt.model.AppUser;
 import security.jwt.service.UserService;
 
@@ -24,22 +25,11 @@ public class UserController {
   private final UserService userService;
   private final ModelMapper modelMapper;
 
-  @PostMapping("/signin")
-  @ApiOperation(value = "${UserController.signin}")
-  @ApiResponses(value = {
-      @ApiResponse(code = 400, message = "Something went wrong"),
-      @ApiResponse(code = 422, message = "Invalid username/password supplied")})
-  public String signin(
-      @ApiParam("Username") @RequestParam String username,
-      @ApiParam("Password") @RequestParam String password) {
-    return userService.signin(username, password);
-  }
   @PostMapping("/login")
-  public ResponseEntity<BaseResponse<String>> login2(
-          @ApiParam("Username") @RequestParam String username,
-          @ApiParam("Password") @RequestParam String password) {
+  public ResponseEntity<BaseResponse<String>> login(
+          @RequestBody SignInRequest signInRequest) {
     return ResponseEntity.ok(
-            ResponseBuilder.ok().with(userService.signin(username, password)).build());
+            ResponseBuilder.ok().with(userService.signin(signInRequest)).build());
   }
 
   @PostMapping("/signup")

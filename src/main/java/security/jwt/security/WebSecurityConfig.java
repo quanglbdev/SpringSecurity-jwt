@@ -31,9 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/signin").permitAll()
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/users/login").permitAll()
-                .antMatchers("/swagger-ui").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated().and().httpBasic();
 
         http.exceptionHandling().accessDeniedPage("/login");
@@ -41,20 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
     }
-
-//  @Override
-//  public void configure(WebSecurity web) throws Exception {
-//    web.ignoring().antMatchers("/v2/api-docs")//
-//        .antMatchers("/swagger-resources/**")//
-//        .antMatchers("/swagger-ui.html")//
-//        .antMatchers("/configuration/**")//
-//        .antMatchers("/webjars/**")//
-//        .antMatchers("/public")
-//
-//        .and()
-//        .ignoring()
-//        .antMatchers("/h2-console/**/**");;
-//  }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
